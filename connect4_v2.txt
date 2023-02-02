@@ -1,0 +1,308 @@
+#Earlier in the course, you implemented a function that could
+#find if someone had won a particular game of either tic-tac-
+#toe or mancala based on a 2D list or tuple representing the
+#current game board.
+#
+#In this problem, you'll do the same thing, but for the game
+#Connect 4. Write a function called check_winner which takes
+#as input a 2D list. It should return "X" if there are four
+#adjacent "X" values anywhere in the list (row, column,
+#diagonal); "O" if there are four adjacent "O" values
+#anywhere in the list; and None if there are neither.
+#
+#Here are the ways Connect-4 is different from tic-tac-toe:
+#
+# - Connect-4 is played with 6 rows and 7 columns, not 3
+#   rows and 3 columns.
+# - You must have 4 in a row (or column or diagonal) to win
+#   instead of 3.
+# - You may only place pieces in the bottom-most empty
+#   space in a column (e.g. you "drop" the pieces in the
+#   column and they fall to the first empty spot). Note,
+#   though, that this shouldn't affect your reasoning.
+#
+#To keep things simple, we'll still use "X" and "O" to
+#represent the players, and None to represent empty spots.
+#You may assume there will be only one winner per board,
+#no characters besides "X", "O", and None, and you don't
+#have to worry about whether the board is actually a
+#valid game of Connect 4.
+#
+#Hints:
+# - Don't forget both kinds of diagonals, top-left to
+#   bottom-right and bottom-left to top-right.
+# - This board is too large to check every possible place
+#   for a winner: there are 69 places a player could win.
+# - Remember, if you put a negative index in a list,
+#   Python "wraps around" and checks the last value. You
+#   may have to control for this.
+
+
+#Write your function here!
+def rc(lt, d):
+    contX = 1
+    contO = 1
+    X = False
+    O = False
+    st = None
+    
+    if d == "rows":
+        n = 3
+        l = 6
+        nrow = 0
+        ncol=1
+        
+        i = 0
+        f = 4
+        s = 1
+        s2 = 1
+
+    elif d == "cols":
+        n = 3
+        l = 5
+        nrow = 0
+        ncol=1
+        
+        i = 0
+        f = 3
+        s = 1
+        s2 = 1
+    
+    for row in range(len(lt)):
+        
+        #print("row", row)
+        
+        for col in range(i, f, s):
+            #print("col:", col)
+            #print("This is row",lt[row], col)
+                
+            if lt[row][col]=="X":
+                X = True
+                O = False
+            elif lt[row][col] == "O":
+                O = True
+                X = False
+            else:
+                O = False
+                X = False
+                
+            #print("This is a test",list(range(col, col+4)))
+            #print("This is col", col)
+                
+            contX = 1
+            contO = 1
+                    
+            for colk in range(col, col+n, s2):
+                #print("This is col",lt[row][colk], colk, colk+ncol)
+                    
+                if lt[row][col] == lt[row+nrow][colk+ncol]:
+                    #print("X:{} o O:{}".format(X, O))
+                            
+                    if X:
+                        contX += 1  
+                    elif O:
+                        contO += 1
+                    else:
+                        contX = 1
+                        contO = 1                    
+                    
+                    #print("This is conX, contO")
+                    #print(contX, contO)
+                        
+                    if contX == 4:
+                        return "X"
+                    elif contO == 4:
+                        return "O"
+    
+    return None
+
+def dd2(lt, d):
+    contX = 1
+    contO = 1
+    X = False
+    O = False
+    st = None
+    
+
+    if d == "dlr":
+        n = 3
+        
+        i = 0
+        f = 4
+        s = 1
+        s2 = 1
+        
+    elif d == "drl":
+        n = -3
+        
+        i = len(lt[0])-1
+        f = 2
+        s = -1
+        s2 = -1
+    
+    for row in range(0, 3, 1):
+        
+        #print("row", row)
+        
+        #print(i, f, s)
+        
+        for col in range(i, f, s):
+            #print("col:", col)
+            #print("This is row",lt[row], col)
+            
+            #print("This is row and col")
+            #print(row, col)
+            
+            if lt[row][col]=="X":
+                X = True
+                O = False
+            elif lt[row][col] == "O":
+                O = True
+                X = False
+            else:
+                O = False
+                X = False
+                
+            #print("This is a test",list(range(col, col+4)))
+            #print("This is col", col)
+                
+            contX = 1
+            contO = 1
+            
+            lt1 = list(range(row+1, row+4, 1))
+            lt2 = list(range(col+s2, col+n+s2,s2))
+            
+            #print(col, row, n, s2)
+            #print(lt1, lt2)
+            
+            lt3 = list(zip(lt1, lt2))
+            #print(lt3)
+                            
+            for item in lt3:
+                #print("Items")
+                #print(item[0], item[1])
+                        
+                #print("row_col", lt[row][col])
+                #print("item01", lt[item[0]][item[1]])
+                      
+                if lt[row][col] == lt[item[0]][item[1]]:
+                    #print("X:{} o O:{}".format(X, O))
+                    #print("ltrowcol",lt[row][col])
+                    #print("ltitem",lt[item[0]][item[1]])
+                            
+                    if X:
+                        contX += 1  
+                    elif O:
+                        contO += 1
+                    else:
+                        contX = 1
+                        contO = 1                    
+                    
+                        #print("This is conX, contO")
+                        #print(contX, contO)
+                        
+                    if contX == 4:
+                        return "X"
+                    elif contO == 4:
+                        return "O"
+    
+    return None
+
+def cols(lt):
+        
+    lt2 = []
+    
+    for r in range(len(lt[0])):
+        lt2.append([])
+
+    for k in range(len(lt[0])):
+        #print("Col", k)
+    
+        for i in range(len(lt)):    
+            #print("i", i)
+            #lt2.append([])
+        
+            for j in range(len(lt[i])):
+                #lt2.append([])
+                if j ==k:
+                    #lt2.append([])
+                    lt2[j].append(lt[i][j])
+            
+            #print(lt2)
+    return lt2
+
+
+def check_winner(lt):
+    
+    #print("Aqui se ocupa rows")
+    
+    st = rc(lt,"rows")
+    #print(st)
+    
+    if st != None:
+        return st
+    else:
+        #print(lt)
+        
+        #print("Aqui se ocupa cols")
+        
+        lt2 = cols(lt)
+        
+        #print(lt2)
+        
+        st = rc(lt2, "cols")
+        
+        #print(st)
+        
+        if st != None:
+            return st
+        else:
+            
+            #print("Aqui se ocupa diagonal lr")
+            
+            st = dd2(lt, "dlr")
+            
+            #print(st)
+            
+            if st != None:
+                return st
+            else:
+                #print("Aqui se ocupa diagonal rl")
+                
+                st = dd2(lt, "drl")
+                
+                if st != None:
+                    return st
+                else:
+                    return None
+
+
+
+
+#The code below tests your function on three Connect-4
+#boards. Remember, the line breaks are not needed to create
+#a 2D tuple; they're used here just for readability.
+xwins = ((None, None, None, None, None, None, None),
+         (None, None, None, None, None, None, None),
+         (None, None, None, None, "X" , None, None),
+         (None, None, None, "X" , "O" , "O", None),
+         (None, "O" , "X" , "X" , "O" , "X", None),
+         ("O" , "X" , "O" , "O" , "O" , "X" , "X"))
+owins = ((None, None, None, None, None, None, None),
+         (None, None, None, None, None, None, None),
+         ("O" , "O" , "O" , "O" , None, None, None),
+         ("O" , "X" , "X" , "X" , None, None, None),
+         ("X" , "X" , "X" , "O" , "X" , None, None),
+         ("X" , "O" , "O" , "X" , "O" , None, None))
+nowins =(("X" , "X" , None, None, None, None, None),
+         ("O" , "O" , None, None, None, None, None),
+         ("O" , "X" , "O" , "O" , None, "O" , "O" ),
+         ("O" , "X" , "X" , "X" , None, "X" , "X" ),
+         ("X" , "X" , "X" , "O" , "X" , "X" , "O" ),
+         ("X" , "O" , "O" , "X" , "O" , "X" , "O" ))
+         
+print(check_winner(xwins))
+print(check_winner(owins))
+print(check_winner(nowins))
+
+
