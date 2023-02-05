@@ -1,0 +1,61 @@
+def insertion(lst):
+    
+    for i in range(len(lst)-1):
+        
+        num = lst[i+1]
+        
+        #Assume first that current item is already correct...
+        if i ==0:
+            lst_temp = [lst[i]]            
+            
+            if lst_temp[0] < num:                
+                Index = 0 + 1
+                                
+            else:                
+                Index = 0
+                
+            lst_temp.insert(Index, num)                    
+        
+        elif i != 0:
+            
+            #Agregar valores menores al principio
+            low_value = True
+            
+            for j in range(len(lst_temp)):                
+                
+                if lst_temp[j] < num:
+                    low_value = False
+                
+            if low_value:
+                lst_temp.insert(0, num)
+                
+            #Agregar valores mayores al final
+            high_value = True
+            
+            for j in range(len(lst_temp)):                
+                
+                if lst_temp[j] > num:
+                    high_value = False
+                
+            if high_value:
+                lst_temp.insert(j+1, num)                            
+            
+            if not low_value and not high_value:
+                lowIndex = -1
+                upIndex = -2
+            
+                for j in range(len(lst_temp)):
+                
+                    if lst_temp[j] < num:                                            
+                        lowIndex = j + 1                        
+                                
+                    else:                        
+                        upIndex = j
+                        
+                    if lowIndex == upIndex:                        
+                        Index = upIndex
+                        break                                
+            
+                lst_temp.insert(Index, num)                
+            
+    return lst_temp
