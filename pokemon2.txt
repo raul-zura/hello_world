@@ -448,3 +448,225 @@ dtype3_sp = {}
 for i in dtype1_sp:
     #print("Hum")
     #print(i)
+
+    if i not in dtype3_sp:
+        dtype3_sp[i] = 0
+        #print(dtype3_sp)
+        
+    count1 = dtype1_sp.get(i,0)
+    count2 = dtype2_sp.get(i,0)
+    
+    dtype3_sp[i] = (count1 + count2)/dtype3[i]
+    
+pok_type3 = max(dtype3_sp, key= dtype3_sp.get)
+print(pok_type3)
+print(round(dtype3_sp[pok_type3]))
+
+#print(dtype3_sp)
+
+
+#Question 9
+
+gen = {}
+
+for i in pokedex4:
+    
+    g = i.get_gen()
+    tot_pow = i.total_power()
+    
+    
+    if g not in gen:
+        gen[g]=[0,0]
+    
+    gen[g][0] += 1
+    gen[g][1] += tot_pow
+    
+
+res_gen = {}
+
+
+for i in gen:
+    
+    num = gen[i][0]
+    power = gen[i][1]
+    
+    res_gen[i] = power/num
+    
+
+gen_max = max(res_gen, key = res_gen.get)
+
+print("Question 9")
+print(gen_max)
+
+stat = res_gen[gen_max] 
+print(stat)
+
+
+#Question 10
+
+res_gen2 = res_gen
+
+del res_gen[gen_max]
+
+gen_max2 = max(res_gen, key= res_gen.get)
+
+print("Question 10")
+print(res_gen[gen_max2])
+print(round(stat - res_gen[gen_max2]))
+
+
+#Question 11
+l = []
+
+for i in pokedex4:
+    
+    num = i.get_number()
+    mega = i.get_mega()
+    
+    if mega == "TRUE":
+        l.append(num)
+ 
+print("Question 11")
+#print(l)
+
+
+d = {}
+d_mega = {}
+
+for i in pokedex4:
+    
+    num = i.get_number()        
+    mega = i.get_mega()
+    name = i.get_name()
+    tot_pow = i.total_power()
+    
+    
+    if num in l:
+       
+        if mega != "TRUE":
+            d[num] = [name, tot_pow]
+
+print("this is d")            
+print(d)       
+
+for i in pokedex4:
+    
+    num = i.get_number()
+    mega = i.get_mega()
+    name = i.get_name()
+    tot_pow = i.total_power()
+    
+    no = l.count(num)
+    
+    if num in l:
+        
+        if mega == "TRUE":
+            
+            if num not in d_mega:
+                d_mega[num] = no*[0]
+            
+            for j in range(len(d_mega[num])):
+                
+                if d_mega[num][j] == 0:
+                           d_mega[num][j] = [name,tot_pow]
+
+print("this is d_mega")                        
+print(d_mega)                           
+
+num_nm = len(d)
+tot_stat=0
+
+for i in d:
+    
+    tot_pow = d[i][1]
+    
+    tot_stat+=tot_pow
+    
+avg_nm = tot_stat/num_nm
+
+print(avg_nm)
+
+
+tot_stat2 = 0
+count = 0
+
+
+for i in d_mega:
+    
+    l = len(d_mega[i])
+    
+    if l == 1:
+        tot_stat2 += d_mega[i][0][1]
+        count += 1
+        
+    else:
+        tot_poke = 0
+        
+        for j in d_mega[i]:
+            
+            tot_poke += j[1]
+        
+        tot_stat2 += tot_poke/len(d_mega[i])
+        
+        count +=1
+
+print("new")        
+print(count)
+avg_m = tot_stat2/count            
+print(avg_m)
+
+print(round(avg_m-avg_nm))
+
+l2 = []
+
+for i in pokedex4:
+    
+    num = i.get_number()
+    mega = i.get_mega()
+    
+    if mega == "TRUE":
+        l2.append(num)
+ 
+print(l2)
+
+tot_stat3nm = 0
+tot_stat3m = 0
+
+countnm = 0
+countm =0
+
+for i in pokedex4:
+    
+    num = i.get_number()        
+    mega = i.get_mega()
+    name = i.get_name()
+    tot_pow = i.total_power()
+    
+    
+    if num in l2:
+       
+        if mega != "TRUE":
+            tot_stat3nm += tot_pow
+            countnm += 1
+            
+        else:
+            tot_stat3m += tot_pow
+            countm += 1
+
+avg_nm2 = tot_stat3nm/countnm
+avg_m2 = tot_stat3m/countm
+
+print(countnm, countm)
+
+print(avg_nm2)
+print(avg_m2)
+avg_nmr = round(avg_nm2)
+print(avg_nmr)
+avg_mr = round(avg_m2)
+print(avg_mr)
+
+print(avg_mr - avg_nmr)
+
+
+print(len(d))
+print(len(d_mega))
