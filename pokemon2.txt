@@ -1,0 +1,450 @@
+#Each line of the file has 13 values, separated by commas.
+#They are: 
+#
+#
+# - Number: The numbered ID of the Pokemon, an integer
+# - Name: The name of the Pokemon, a string
+# - Type1: The Pokemon's primary type, a string
+# - Type2: The Pokemon's secondary type, a string (this
+#   may be blank)
+# - HP: The Pokemon's HP statistic, an integer in the range
+#   1 to 255
+# - Attack: The Pokemon's Attack statistic, an integer in
+#   the range 1 to 255
+# - Defense: The Pokemon's Defense statistic, an integer in
+#   the range 1 to 255
+# - SpecialAtk: The Pokemon's Special Attack statistic, an
+#   integer in the range 1 to 255
+# - SpecialDef: The Pokemon's Special Defense statistic, an
+#   integer in the range 1 to 255
+# - Speed: The Pokemon's Speed statistic, an integer in the
+#   range 1 to 255
+# - Generation: What generation the Pokemon debuted in, an
+#   integer in the range 1 to 7
+# - Legendary: Whether the Pokemon is considered "legendary"
+#   or not, either TRUE or FALSE
+# - Mega: Whether the Pokemon is "Mega" or not, either TRUE
+#   or FALSE
+#
+#Use this dataset to answer the questions below.
+
+
+#Here, add any code you want to allow you to answer the
+#questions asked below over on edX. This is just a sandbox
+#for you to explore the dataset: nothing is required for
+#submission here.
+
+#The line below will open a file containing information
+#about every pokemon through Generation 7:
+
+pokedex = open('../resource/lib/public/pokedex.csv', 'r')
+
+#We've also provided a sample subset of the data in
+#sample.csv.
+#
+#Each line of the file has 13 values, separated by commas.
+#They are: 
+#
+#
+# - Number: The numbered ID of the Pokemon, an integer
+# - Name: The name of the Pokemon, a string
+# - Type1: The Pokemon's primary type, a string
+# - Type2: The Pokemon's secondary type, a string (this
+#   may be blank)
+# - HP: The Pokemon's HP statistic, an integer in the range
+#   1 to 255
+# - Attack: The Pokemon's Attack statistic, an integer in
+#   the range 1 to 255
+# - Defense: The Pokemon's Defense statistic, an integer in
+#   the range 1 to 255
+# - SpecialAtk: The Pokemon's Special Attack statistic, an
+#   integer in the range 1 to 255
+# - SpecialDef: The Pokemon's Special Defense statistic, an
+#   integer in the range 1 to 255
+# - Speed: The Pokemon's Speed statistic, an integer in the
+#   range 1 to 255
+# - Generation: What generation the Pokemon debuted in, an
+#   integer in the range 1 to 7
+# - Legendary: Whether the Pokemon is considered "legendary"
+#   or not, either TRUE or FALSE
+# - Mega: Whether the Pokemon is "Mega" or not, either TRUE
+#   or FALSE
+#
+#Use this dataset to answer the questions below.
+
+
+#Here, add any code you want to allow you to answer the
+#questions asked below over on edX. This is just a sandbox
+#for you to explore the dataset: nothing is required for
+#submission here.
+
+
+class pokemon:
+    
+    def __init__(self, number, name, type1, type2, hp, attck, defn, sp_attck, sp_defn, speed, gen, leg, mega):
+        self.number = number
+        self.name = name
+        self.type1 = type1
+        self.type2 = type2
+        self.hp = hp
+        self.attck = attck
+        self.defn = defn
+        self.sp_attck = sp_attck
+        self.sp_defn = sp_defn
+        self.speed = speed
+        self.gen = gen
+        self.leg = leg
+        self.mega = mega
+    
+    def total_power(self):
+        return self.hp+self.attck+self.defn+self.sp_attck+self.sp_defn+self.speed
+    
+    def get_number(self):
+        return self.number
+    
+    def get_name(self):
+        return self.name
+    
+    def get_type1(self):
+        return self.type1
+    
+    def get_type2(self):
+        return self.type2
+    
+    def get_hp(self):
+        return self.hp
+    
+    def get_defn(self):
+        return self.defn
+    
+    def get_speed(self):
+        return self.speed
+    
+    def get_gen(self):
+        return self.gen
+    
+    def get_leg(self):
+        return self.leg
+    
+    def get_mega(self):
+        return self.mega
+    
+pokedex2 = []
+
+for i in pokedex:
+    number, name, type1, type2, hp, attck, defn, sp_attck, sp_defn, speed, gen, leg, mega = i.strip().split(",")
+    pokedex2.append([number, name, type1, type2, hp, attck, defn, sp_attck, sp_defn, speed, gen, leg, mega])
+
+pokedex.close()   
+pokedex3 = pokedex2[1:]
+
+pokedex4 = []
+
+for i in pokedex3:
+    number = i[0]
+    name = i[1]    
+    type1 = i[2]
+    type2 = i[3]
+    hp = i[4]
+    attck = i[5]
+    defn = i[6]
+    sp_attck = i[7]
+    sp_defn = i[8] 
+    speed = i[9]
+    gen = i[10]
+    leg = i[11]
+    mega = i[12]
+    
+    pokedex4.append(pokemon(number, name, type1, type2, int(hp), int(attck), int(defn), int(sp_attck), int(sp_defn), int(speed), gen, leg, mega))
+    
+#Question 1
+count = 0
+                   
+for i in pokedex4:
+    #print(i.get_type2())
+    
+    if i.get_type2()=="":
+        count+=1
+            
+print("Question 1")
+print(count)
+    
+#Question 2
+
+dtype1 = {}
+
+dtype2 = {}
+
+for i in pokedex4:
+    type1 = i.get_type1()
+    type2 = i.get_type2()
+    
+    if type1 not in dtype1:
+        dtype1[type1] = 0
+    
+    dtype1[type1] += 1    
+    
+    if type2:
+        if type2 not in dtype2 and type2 != "":
+            dtype2[type2] = 0
+        
+        dtype2[type2] += 1        
+    
+
+print("Question 2")
+pok_type1 = max(dtype1, key= dtype1.get)
+#print(pok_type1)
+#print(dtype1[pok_type1])
+
+pok_type2 = max(dtype2, key= dtype2.get)
+#print(pok_type2)
+#print(dtype2[pok_type2])
+
+
+#print(len(dtype1))
+#print(len(dtype2))
+
+l1 = list(dtype1.keys())
+l1.sort()
+l2 = list(dtype2.keys())
+l2.sort()
+
+#print(l1)
+#print(l2)
+
+
+dtype3 = {}
+
+for i in dtype1:
+    
+    if i not in dtype3:
+        dtype3[i] = 0
+    
+    dtype3[i] = dtype1[i] + dtype2[i]
+    
+pok_type3 = max(dtype3, key= dtype3.get)
+print(pok_type3)
+print(dtype3[pok_type3])
+
+#Question 3
+
+max_hp=0
+
+for i in pokedex4:
+    
+    hp = i.get_hp()
+    name = i.get_name()
+    
+    if hp > max_hp:
+        max_hp = hp
+        name_hp = name
+
+print("Question 3")
+print(name_hp)
+print(max_hp)
+
+#Question 4
+
+max_df = 0
+name_df = ""
+
+for i in pokedex4:
+    name = i.get_name()
+    leg = i.get_leg()
+    mega = i.get_mega()
+    defn = i.get_defn()
+
+    #print(type(leg))
+    #print(type(mega))    
+            
+    #print(len(leg))
+    #print(len(mega)) 
+    
+    #print(leg)
+    #print(mega)
+    
+    #assert leg=="FALSE"
+    #assert mega=="FALSE"
+    
+    if leg=="FALSE" and mega=="FALSE":
+        #print("hum")
+        #print(leg)
+        #print(mega)
+        
+        if defn> max_df:
+            max_df = defn
+            name_df = name
+            
+print("Question 4")
+print(name_df)
+print(max_df)
+        
+
+#Question 5
+
+dtype_leg1 = {}
+
+dtype_leg2 = {}
+
+for i in pokedex4:
+    type1 = i.get_type1()
+    type2 = i.get_type2()
+    
+    leg = i.get_leg()
+    
+    if leg == "TRUE":
+        if type1 not in dtype_leg1:
+            dtype_leg1[type1] = 0
+    
+        dtype_leg1[type1] += 1    
+    
+        if type2:
+            if type2 not in dtype_leg2:
+                dtype_leg2[type2] = 0
+        
+            dtype_leg2[type2] += 1        
+    
+
+print("Question 5")
+pok_type_leg1 = max(dtype_leg1, key= dtype_leg1.get)
+#print(pok_type_leg1)
+#print(dtype_leg1[pok_type_leg1])
+#print(dtype_leg1)
+#print("\n")
+
+pok_type_leg2 = max(dtype_leg2, key= dtype_leg2.get)
+#print(pok_type_leg2)
+#print(dtype_leg2[pok_type_leg2])
+#print(dtype_leg2)
+
+
+#print(len(dtype1))
+#print(len(dtype2))
+
+l1_leg = list(dtype_leg1.keys())
+l1_leg.sort()
+l2_leg = list(dtype_leg2.keys())
+l2.sort()
+
+#print("Tipos legendarios")
+#print(l1_leg)
+#print(l2_leg)
+
+
+dtype_leg3= {}
+
+for i in dtype_leg1:
+    #print(i)
+    #print(dtype_leg3)
+    
+    if i not in dtype_leg3:
+        dtype_leg3[i] = 0
+    
+    count_leg1 = dtype_leg1.get(i,0)
+    count_leg2 = dtype_leg2.get(i,0)
+            
+    dtype_leg3[i] = count_leg1 + count_leg2
+
+#print("hum")    
+#print(dtype_leg3)
+pok_type_leg3 = max(dtype_leg3, key= dtype_leg3.get)
+print(pok_type_leg3)
+print(dtype_leg3[pok_type_leg3])
+
+
+
+#Question 6
+
+min_tot_pow = 300
+
+for i in pokedex4:
+    tot_pow = i.total_power()
+    name = i.get_name()
+    leg = i.get_leg()
+    
+    if leg == "TRUE":
+        if tot_pow < min_tot_pow:
+            min_tot_pow = tot_pow
+            
+            name_tot_pow = name
+
+print("Question 6")            
+print(name_tot_pow)
+print(min_tot_pow)
+
+
+#Question 7
+
+max_tot_pow = 0
+
+for i in pokedex4:
+    tot_pow = i.total_power()
+    
+    name = i.get_name()
+    leg = i.get_leg()
+    mega = i.get_mega()
+    
+    if leg == "FALSE" and mega == "FALSE":
+        if tot_pow > max_tot_pow:
+            max_tot_pow = tot_pow
+            name_tot_pow = name
+    
+print("Question 7")
+print(name_tot_pow)
+print(max_tot_pow)
+
+
+#Question 8
+
+avg_speed = {}
+
+dtype1_sp = {}
+
+dtype2_sp = {}
+
+for i in pokedex4:
+    type1 = i.get_type1()
+    type2 = i.get_type2()
+    
+    sp1 = i.get_speed()
+    sp2 = i.get_speed()
+    
+    if type1 not in dtype1_sp:
+        dtype1_sp[type1] = 0
+    
+    dtype1_sp[type1] += sp1    
+    
+    if type2:
+        if type2 not in dtype2_sp:
+            dtype2_sp[type2] = 0
+        
+        dtype2_sp[type2] += sp2
+    
+
+print("Question 8")
+pok_type1 = max(dtype1_sp, key= dtype1_sp.get)
+print(pok_type1)
+print(dtype1_sp[pok_type1])
+
+pok_type2 = max(dtype2_sp, key= dtype2_sp.get)
+print(pok_type2)
+print(dtype2_sp[pok_type2])
+
+
+#print(len(dtype1))
+#print(len(dtype2))
+
+l1 = list(dtype1_sp.keys())
+l1.sort()
+l2 = list(dtype2_sp.keys())
+l2.sort()
+
+#print(l1)
+#print(l2)
+
+
+dtype3_sp = {}
+
+for i in dtype1_sp:
+    #print("Hum")
+    #print(i)
